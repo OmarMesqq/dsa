@@ -52,6 +52,16 @@ void get_elements(struct LinkedList* ll) {
 
 }
 
+void free_nodes(struct LinkedList* ll) {
+    struct Node* current = ll->head;
+	struct Node* next = current->next;
+    if (current == NULL || next == NULL) { return;}
+    
+    for (int i = 0; next != NULL; i++) {
+		free(current);
+	    next = next->next;
+    }	
+}
 
 int main() {
 	struct LinkedList ll;
@@ -65,6 +75,7 @@ int main() {
 	add_data(&ll, d2);
 
 	get_elements(&ll);
+	free_nodes(&ll);
 
 	return 0;
 }
