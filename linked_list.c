@@ -16,7 +16,8 @@ void add_data(struct LinkedList* ll, const char* data) {
 	if (ll == NULL || data == NULL) { return; }
 	
 	struct Node* node = malloc(sizeof(struct Node)); 
-	if (node == NULL) { return; } // Handle malloc failure
+	if (node == NULL) { return; } 
+	
 	node->data = data; 
 	if (ll->head == NULL) {
 		ll->head = node;
@@ -29,27 +30,24 @@ void add_data(struct LinkedList* ll, const char* data) {
 }
 
 int get_size(const struct LinkedList* ll) {
-       int count = 0;
-
-       struct Node* current = ll->head;
-       if (current == NULL) { return 0;}
-     
-       for (int i = 0; current != NULL; i++) {
-	       current = current->next;
-	       count++;
-       }	    
-
-       return count;
+    int count = 0;
+    struct Node* current = ll->head;
+    if (current == NULL) { return 0;}
+    
+    for (int i = 0; current != NULL; i++) {
+	    current = current->next;
+	    count++;
+    }	    
+    return count;
 }
 
-void get_elements(struct LinkedList* ll) {
+void get_elements(const struct LinkedList* ll) {
 	struct Node* current = ll->head;
 	for (int i = 0; i < get_size(ll); i++) {
 		if (current == NULL) { break; }
 		printf("Node %d, element: %s\n", i, (current->data));
 		current = current->next;
 	}
-
 }
 
 void free_nodes(struct LinkedList* ll) {
