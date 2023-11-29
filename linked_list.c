@@ -8,7 +8,7 @@ struct Node {
 
 struct LinkedList {
 	struct Node* head;
-    struct Node* tail;	
+    // struct Node* tail;	
 };
 
 
@@ -52,13 +52,21 @@ void get_elements(const struct LinkedList* ll) {
 
 void free_nodes(struct LinkedList* ll) {
     struct Node* current = ll->head;
-	struct Node* next = current->next;
-    if (current == NULL || next == NULL) { return;}
-    
-    for (int i = 0; next != NULL; i++) {
-		free(current);
-	    next = next->next;
-    }	
+	if (current == NULL) {
+		return; // 1st edge case: empty list
+	}
+	else if (current->next == NULL) {
+		free(current); //2nd edge case: list with only one element
+		return;
+	}
+	else {
+		struct Node* previous = NULL;
+		while (current != NULL) {
+			previous = current;
+			current = current->next;
+			free(previous);
+		}
+	}
 }
 
 void delete_node(struct LinkedList* ll, const int index) {
@@ -75,7 +83,6 @@ void delete_node(struct LinkedList* ll, const int index) {
 	}
 
 	struct Node* previous = NULL;
-	struct Node* next = NULL;
 	for (int i = 0; i < size; i++) {
 		if (i == index - 1) {
 			previous = current;
@@ -98,7 +105,7 @@ void delete_node(struct LinkedList* ll, const int index) {
 int main() {
 	struct LinkedList ll;
 	ll.head = NULL; 
-	ll.tail = NULL;
+	// ll.tail = NULL;
 
 	const char* d1 = "Hello";
 	const char* d2 = "World";
@@ -108,7 +115,7 @@ int main() {
 
 	get_elements(&ll);
 	printf("Size: %d\n", get_size(&ll));
-	delete_node(&ll, 2);
+	delete_node(&ll, 0);
 	printf("Size after deletion: %d\n", get_size(&ll));
 	get_elements(&ll);
 	
