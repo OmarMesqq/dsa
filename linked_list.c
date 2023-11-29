@@ -45,7 +45,7 @@ void get_elements(const struct LinkedList* ll) {
 	struct Node* current = ll->head;
 	for (int i = 0; i < get_size(ll); i++) {
 		if (current == NULL) { break; }
-		printf("Node %d, element: %s\n", i, (current->data));
+		printf("Node index %d, data: %s\n", i, (current->data));
 		current = current->next;
 	}
 }
@@ -61,6 +61,40 @@ void free_nodes(struct LinkedList* ll) {
     }	
 }
 
+void delete_node(struct LinkedList* ll, const int index) {
+	int size =  get_size(ll);
+	if (index < 0 || index > size) {
+		return;
+	}
+	
+	struct Node* current = ll->head;
+	if (index == 0) {
+		ll->head = current->next;
+		free(current);
+		return;
+	}
+
+	struct Node* previous = NULL;
+	struct Node* next = NULL;
+	for (int i = 0; i < size; i++) {
+		if (i == index - 1) {
+			previous = current;
+		}
+		else if (i == index) {
+			if (current->next == NULL) {
+				previous->next = NULL;
+			}
+			else {
+				previous->next = current->next;
+			}
+			
+			free(current);
+			break;
+		}
+		current = current->next;
+	}
+}
+
 int main() {
 	struct LinkedList ll;
 	ll.head = NULL; 
@@ -73,7 +107,11 @@ int main() {
 	add_data(&ll, d2);
 
 	get_elements(&ll);
+	printf("Size: %d\n", get_size(&ll));
+	delete_node(&ll, 2);
+	printf("Size after deletion: %d\n", get_size(&ll));
+	get_elements(&ll);
+	
 	free_nodes(&ll);
-
 	return 0;
 }
