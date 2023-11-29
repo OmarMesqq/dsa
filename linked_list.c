@@ -43,7 +43,7 @@ int get_size(const struct LinkedList* ll) {
 
 void get_elements(const struct LinkedList* ll) {
 	struct Node* current = ll->head;
-	for (int i = 0; i < get_size(ll); i++) {
+	for (int i = 0; current != NULL; i++) { 
 		if (current == NULL) { break; }
 		printf("Node index %d, data: %s\n", i, (current->data));
 		current = current->next;
@@ -70,8 +70,7 @@ void free_nodes(struct LinkedList* ll) {
 }
 
 void delete_node(struct LinkedList* ll, const int index) {
-	int size =  get_size(ll);
-	if (index < 0 || index > size) {
+	if (index < 0 || index > get_size(ll)) {
 		return;
 	}
 	
@@ -83,7 +82,7 @@ void delete_node(struct LinkedList* ll, const int index) {
 	}
 
 	struct Node* previous = NULL;
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; current != NULL; i++) {
 		if (i == index - 1) {
 			previous = current;
 		}
